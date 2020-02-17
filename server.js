@@ -2,8 +2,10 @@ const fs = require('fs');
 
 const express = require('express');
 const reactViews = require('express-react-views');
+const morgan = require('morgan');
 
-const server = express();
+server.set('view engine', 'jsx');
+server.use(morgan('dev'));
 server.engine('jsx', reactViews.createEngine());
 server.use(express.static('static'));
 
@@ -17,14 +19,9 @@ server.get('/', async (req, res) => {
     })
   });
 
-  let output = 'files:';
-  for (const dirent of pictureDirents) {
-    if (dirent.isFile())
-      output += '\n' + dirent.name;
-  }
+  const pictureFilenames = pictureDirents.map(dirent => dirent.name);
 
-  res.writeHead(200, {'content-type': 'text/html'});
-  res.end(output);
+  res.render('Main', {filenames: pictureFilenames});
 });
 
 server.listen(8000);
