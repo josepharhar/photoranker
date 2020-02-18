@@ -1,6 +1,7 @@
-const react = require('react');
+// TODO why does this have to specifically be named "React"
+const React = require('react');
 
-class Main extends react.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -8,10 +9,21 @@ class Main extends react.Component {
   renderFileList() {
     return (
       <div>
-        {this.props.filenames.map(filename => {
+        {this.props.filenames.map((filename, index) => {
+          const href = '/images/' + filename;
           return (
             <div>
-              <a href={'/static/' + filename}>filename</a>
+              <div className="grid-container">
+                <h3>#{index + 1}</h3>
+                <form method="POST">
+                  <input type="submit" value="up" formaction={'/up/' + filename}></input>
+                  <input type="submit" value="down" formaction={'/down/' + filename}></input>
+                </form>
+              </div>
+              <a href={href} target="_blank">
+                {filename}
+                <div className="imgbox"><img src={href}></img></div>
+              </a>
             </div>
           );
         })};
@@ -23,6 +35,7 @@ class Main extends react.Component {
     return (
       <html>
         <head>
+          <link rel="stylesheet" href="/static/style.css"></link>
           <title>photo ranker</title>
         </head>
         <body>
