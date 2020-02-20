@@ -16,6 +16,19 @@ server.get('/', async (req, res) => {
   res.render('Main', {filenames: await readList()});
 });
 
+function respond303(res) {
+  res.writeHead(303, {
+    'content-type': 'text/plain',
+    location: '/'
+  });
+  res.end('success. returning 303 to send you back to the main page...');
+}
+
+function respondError(res, error) {
+  res.writeHead(500, {'content-type': 'text/plain'});
+  res.end('server error:\n\n' + error);
+}
+
 async function handleUpDown(upOrDown, req, res) {
   try {
     const rankingList = await readList();
@@ -45,20 +58,22 @@ async function handleUpDown(upOrDown, req, res) {
     }
 
     await writeList(rankingList);
-
-    res.writeHead(303, {
-      'content-type': 'text/plain',
-      location: '/'
-    });
-    res.end('successful /' + upOrDown);
+    respond303(res);
 
   } catch (error) {
-    res.writeHead(500, {'content-type': 'text/plain'});
-    res.end('server error:\n\n' + error);
+    respondError(res, error);
   }
 }
 server.post('/up/:filename', (req, res) => handleUpDown('up', req, res));
 server.post('/down/:filename', (req, res) => handleUpDown('down', req, res));
+server.post('/delete/:filename', async (req, res) => {
+  fs.unlink('images/' + req.params.filename, err => {
+    if (err) 
+      respondError(res, err);
+    else
+      respond303(res);
+  });
+});
 
 server.listen(8000);
 

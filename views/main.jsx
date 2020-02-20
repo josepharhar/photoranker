@@ -12,17 +12,18 @@ class Main extends React.Component {
         {this.props.filenames.map((filename, index) => {
           const href = '/images/' + filename;
           return (
-            <div>
-              <div className="grid-container">
+            <div className="box">
+              <div>
                 <h3>#{index + 1}</h3>
                 <form method="POST">
                   <input type="submit" value="up" formaction={'/up/' + filename}></input>
                   <input type="submit" value="down" formaction={'/down/' + filename}></input>
+                  <input type="submit" value="delete" formaction={'/delete/' + filename}></input>
                 </form>
               </div>
               <a href={href} target="_blank">
                 {filename}
-                <div className="imgbox"><img src={href}></img></div>
+                <img src={href}></img>
               </a>
             </div>
           );
