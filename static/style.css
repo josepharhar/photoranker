@@ -9,9 +9,10 @@ img {
   margin: 8px;
   padding: 8px;
   border: 2px solid yellow;
-  width: 400px;
-  height: 400px;
+  width: 590px;
+  height: 500px;
   background-color: lightgreen;
+  vertical-align: top;
 }
 
 input {
@@ -21,4 +22,10 @@ input {
 
 input[value="delete"] {
   background-color: red;
+}
+
+.title {
+  font-size: 1.17em;
+  margin-bottom: 1em;
+  font-weight: bold;
 }

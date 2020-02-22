@@ -14,7 +14,7 @@ class Main extends React.Component {
           return (
             <div className="box">
               <div>
-                <h3>#{index + 1}</h3>
+                <div className="title">#{index + 1}</div>
                 <form method="POST">
                   <input type="submit" value="up" formaction={'/up/' + filename}></input>
                   <input type="submit" value="down" formaction={'/down/' + filename}></input>
@@ -40,7 +40,6 @@ class Main extends React.Component {
           <title>photo ranker</title>
         </head>
         <body>
-          <h2>files:</h2>
           {this.renderFileList()}
         </body>
       </html>
