@@ -15,13 +15,13 @@ class Main extends React.Component {
             <div className="box">
               <div>
                 <div className="title">#{index + 1}</div>
-                <form method="POST">
-                  <input type="submit" value="up" formaction={'/up/' + filename}></input>
-                  <input type="submit" value="down" formaction={'/down/' + filename}></input>
-                  <input type="submit" value="delete" formaction={'/delete/' + filename}></input>
-                </form>
+                <div>
+                  <button className="up">up</button>
+                  <button className="down">down</button>
+                  <button className="delete">delete</button>
+                </div>
               </div>
-              <a href={href} target="_blank">
+              <a href={href} target="_blank" className="filename">
                 {filename}
                 <img src={href}></img>
               </a>
@@ -42,6 +42,7 @@ class Main extends React.Component {
         <body>
           {this.renderFileList()}
         </body>
+        <script src="/static/frontend.js"></script>
       </html>
     );
   }

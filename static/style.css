@@ -15,11 +15,13 @@ img {
   vertical-align: top;
 }
 
+button,
 input {
   margin-right: 12px;
   min-width: 50px;
 }
 
+button.delete,
 input[value="delete"] {
   background-color: red;
 }

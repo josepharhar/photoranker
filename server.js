@@ -34,8 +34,6 @@ async function handleUpDown(upOrDown, req, res) {
     const rankingList = await readList();
     const targetFilename = req.params.filename;
     const targetIndex = rankingList.indexOf(targetFilename);
-    console.log('  targetFilename: ' + targetFilename);
-    console.log('  targetIndex: ' + targetIndex);
 
     if (targetIndex < 0) {
       throw new Error('targetIndex < 0 for targetFilename: ' + targetFilename);
