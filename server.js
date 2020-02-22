@@ -93,7 +93,7 @@ async function writeList(list) {
 
 async function readList() {
   return new Promise(async (resolve, reject) => {
-    const imageFilenamesOnDisk = await readImageFilenames();
+    const imageFilenamesOnDisk = (await readImagesDir()).map(dirent => dirent.name);
     const imageFilenamesInRankFile = await new Promise((resolve, reject) => {
       fs.readFile(rankingsFilepath, (err, data) => {
         if (err) {
@@ -114,12 +114,14 @@ async function readList() {
     });
 
     // remove deleted filenames from the ranking list
-    for (const imageFilenameInRankFile of imageFilenamesInRankFile) {
-      const indexOnDisk = imageFilenamesOnDisk.indexOf(imageFilenameInRankFile);
-      if (indexOnDisk < 0) {
-        const indexInRankFile = imageFilenamesInRankFile.indexOf(imageFilenameInRankFile);
-        imageFilenamesInRankFile.splice(indexInRankFile, 1);
-      }
+    const indexesToDelete = [];
+    for (let i = 0; i < imageFilenamesInRankFile.length; i++) {
+      const indexOnDisk = imageFilenamesOnDisk.indexOf(imageFilenamesInRankFile[i]);
+      if (indexOnDisk < 0)
+        indexesToDelete.push(i);
+    }
+    for (let i = indexesToDelete.length - 1; i >= 0; i--) {
+      imageFilenamesInRankFile.splice(indexesToDelete[i], 1);
     }
 
     // append any new filenames to the ranking list
@@ -132,10 +134,6 @@ async function readList() {
 
     resolve(imageFilenamesInRankFile);
   });
-}
-
-async function readImageFilenames() {
-  return (await readImagesDir()).map(dirent => dirent.name);
 }
 
 async function readImagesDir() {
