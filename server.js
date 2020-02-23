@@ -91,7 +91,9 @@ async function writeList(list) {
 
 async function readList() {
   return new Promise(async (resolve, reject) => {
-    const imageFilenamesOnDisk = (await readImagesDir()).map(dirent => dirent.name);
+    const imageFilenamesOnDisk = (await readImagesDir())
+      .map(dirent => dirent.name)
+      .filter(filename => !filename.startsWith('.'));
     const imageFilenamesInRankFile = await new Promise((resolve, reject) => {
       fs.readFile(rankingsFilepath, (err, data) => {
         if (err) {
