@@ -73,7 +73,7 @@ server.post('/delete/:filename', async (req, res) => {
   });
 });
 
-server.listen(8000);
+server.listen(process.env.PORT || 8000);
 
 const rankingsFilepath = 'rankings.json';
 
